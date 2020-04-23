@@ -5,7 +5,7 @@ div
     v-model="value",
     :options="options",
     :multiple="true",
-    :close-on-select="false",
+    :close-on-select="true",
     :clear-on-select="false",
     :preserve-search="true",
     placeholder="Pick some"
