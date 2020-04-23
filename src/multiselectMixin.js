@@ -536,7 +536,7 @@ export default {
         if (this.clearOnSelect) this.search = ''
       }
       /* istanbul ignore else */
-      if (this.closeOnSelect) this.deactivate()
+      if (this.closeOnSelect && !(this.multiple && key === 'Enter')) this.deactivate();
     },
     /**
      * Add the given group options to the list of selected options
