@@ -11,6 +11,7 @@ div
     placeholder="Type to search",
     track-by="name",
     label="name",
+    sublabel="category",
   )
     span(slot="noResult").
       Oops! No elements found. Consider changing the search query.

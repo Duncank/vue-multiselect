@@ -170,12 +170,12 @@ export default {
       },
     /**
      * Hide already selected options
-     * @default false
+     * @default true
      * @type {Boolean}
      */
     hideSelected: {
       type: Boolean,
-      default: false
+      default: true
     },
     /**
      * Equivalent to the `placeholder` attribute on a `<select>` input.

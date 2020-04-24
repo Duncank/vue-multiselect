@@ -181,7 +181,7 @@ export default {
      */
     selectLabel: {
       type: String,
-      default: 'Press enter to select'
+      default: ''
     },
     /**
      * String to show when pointing to an option
