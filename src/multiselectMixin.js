@@ -295,7 +295,6 @@ export default {
     /**
      * Name of the property containing
      * the group label
-     * @default 1000
      * @type {String}
     */
     groupLabel: {
@@ -314,7 +313,6 @@ export default {
     /**
      * Array of keyboard keys to block
      * when selecting
-     * @default 1000
      * @type {String}
     */
     blockKeys: {

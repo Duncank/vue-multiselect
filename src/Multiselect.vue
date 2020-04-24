@@ -114,13 +114,14 @@
                 v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
                 <span
                   v-if="!(option && (option.$isLabel || option.$isDisabled)) && (option[trackBy] !== 0 || option[label])"
-                  :class="optionHighlight(index, option)"
                   @click.stop="select(option)"
                   @mouseenter.self="pointerSet(index)"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
-                  class="multiselect__option">
+                  class="multiselect__option"
+                  :class="['multiselect--level-' + (option.level || 0), optionHighlight(index, option)]"
+                  >
                     <slot name="option" :option="option" :search="search">
                       <span>{{ getOptionLabel(option) }}</span>
                       <span v-if="sublabel" class="multiselect__option_sublabel" :class="sublabelClass">{{ getOptionLabel(option, sublabel) }}</span>
@@ -441,6 +442,7 @@ fieldset[disabled] .multiselect {
   position: relative;
   width: 100%;
   min-height: 40px;
+  line-height: normal;
   text-align: left;
   color: #35495e;
 }
@@ -662,6 +664,7 @@ fieldset[disabled] .multiselect {
   padding: 0;
   margin: 0;
   min-width: 100%;
+  width: 100%;
   vertical-align: top;
 }
 
@@ -758,6 +761,12 @@ fieldset[disabled] .multiselect {
     font-size: 14px;
     opacity: 0.6;
 }
+.multiselect--level-1 {
+    padding-left: var(--padding);
+}
+.multiselect--level-2 {
+    padding-left: var(--padding-xl);
+}
 
 .multiselect__option--group {
   background: #ededed;
@@ -804,6 +813,13 @@ fieldset[disabled] .multiselect {
   display: inline-block;
   vertical-align: top;
 }
+
+.multiselect__clear {
+    position:absolute;
+    right:31px;height:40px;width:20px;display:block;cursor:pointer;z-index:2
+}
+.multiselect__clear:after,.multiselect__clear:before{content:"";display:block;position:absolute;width:2px;height:14px;background:#757575;top:13px;right:4px}
+.multiselect__clear:before{transform:rotate(45deg)}.multiselect__clear:after{transform:rotate(-45deg)}
 
 *[dir="rtl"] .multiselect {
   text-align: right;
