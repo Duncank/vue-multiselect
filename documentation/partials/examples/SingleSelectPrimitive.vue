@@ -9,6 +9,9 @@ div
     :allow-clear="true"
     :show-labels="false"
     placeholder="Pick a value"
+    :multiple="true"
+    track-by=""
+    label=""
   )
   pre.language-json
     code.
@@ -24,7 +27,24 @@ export default {
   },
   data () {
     return {
-      value: '',
+      value: [12, 21],
+    //   options: [
+    //     {
+    //         id: 12,
+    //         name: 'Duncan',
+    //         extra: 'Krebbers'
+    //     },
+    //     {
+    //         id: 13,
+    //         name: 'Desiree',
+    //         extra: 'van Vliet'
+    //     },
+    //     {
+    //         id: 21,
+    //         name: 'Tim',
+    //         extra: 'Ramakers'
+    //     }
+    //   ]
       options: ['Select option', 'options', 'selected', 'multiple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched']
     }
   }
