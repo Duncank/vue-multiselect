@@ -113,7 +113,7 @@
                 v-bind:id="id + '-' + index"
                 v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
                 <span
-                  v-if="!(option && (option.$isLabel || option.$isDisabled))"
+                  v-if="!(option && (option.$isLabel || option.$isDisabled)) && (option[trackBy] !== 0 || option[label])"
                   :class="optionHighlight(index, option)"
                   @click.stop="select(option)"
                   @mouseenter.self="pointerSet(index)"
@@ -123,10 +123,11 @@
                   class="multiselect__option">
                     <slot name="option" :option="option" :search="search">
                       <span>{{ getOptionLabel(option) }}</span>
+                      <span v-if="sublabel" class="multiselect__option_sublabel" :class="sublabelClass">{{ getOptionLabel(option, sublabel) }}</span>
                     </slot>
                 </span>
                 <span
-                  v-if="option && (option.$isLabel || option.$isDisabled)"
+                  v-else-if="option && (option.$isLabel || option.$isDisabled)"
                   :data-select="groupSelect && selectGroupLabelText"
                   :data-deselect="groupSelect && deselectGroupLabelText"
                   :class="groupHighlight(index, option)"
@@ -683,7 +684,9 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px;
   min-height: 40px;
   line-height: 16px;
@@ -750,6 +753,10 @@ fieldset[disabled] .multiselect {
   color: #a6a6a6 !important;
   cursor: text;
   pointer-events: none;
+}
+.multiselect__option_sublabel {
+    font-size: 14px;
+    opacity: 0.6;
 }
 
 .multiselect__option--group {

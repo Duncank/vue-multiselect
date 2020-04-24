@@ -126,6 +126,22 @@ export default {
       type: String
     },
     /**
+     * Sublabel to look for in option Object. Displayed on the right
+     * @default ''
+     * @type {String}
+     */
+    sublabel: {
+        type: String
+    },
+    /**
+     * Class to apply on sublabel
+     * @default ''
+     * @type {String}
+     */
+    sublabelClass: {
+        type: String
+    },
+    /**
      * Enable/disable search in options
      * @default true
      * @type {Boolean}
@@ -484,16 +500,17 @@ export default {
      * Returns the customLabel() results and casts it to string.
      *
      * @param  {Object||String||Integer} Passed option
+     * @param  {String} Key for sublabel
      * @returns {Object||String}
      */
-    getOptionLabel (option) {
-      if (isEmpty(option)) return ''
+    getOptionLabel (option, key) {
+      if (isEmpty(option) || (key && (option.isTag || option.$isLabel))) return ''
       /* istanbul ignore else */
       if (option.isTag) return option.label
       /* istanbul ignore else */
       if (option.$isLabel) return option.$groupLabel
 
-      let label = this.customLabel(option, this.label)
+      let label = this.customLabel(option, key || this.label)
       /* istanbul ignore else */
       if (isEmpty(label)) return ''
       return label
