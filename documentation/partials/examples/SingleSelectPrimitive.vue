@@ -5,7 +5,8 @@ div
     v-model="value",
     :options="options",
     :searchable="false",
-    :close-on-select="false",
+    :close-on-select="true",
+    :allow-clear="true"
     :show-labels="false"
     placeholder="Pick a value"
   )

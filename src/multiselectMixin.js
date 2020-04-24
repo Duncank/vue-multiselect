@@ -144,6 +144,15 @@ export default {
       default: true
     },
     /**
+     * Allow clearing of selected values
+     * @default false
+     * @type {Boolean}
+     */
+    allowClear: {
+        type: Boolean,
+        default: false
+      },
+    /**
      * Hide already selected options
      * @default false
      * @type {Boolean}
@@ -638,6 +647,27 @@ export default {
       if (this.search.length === 0 && Array.isArray(this.internalValue) && this.internalValue.length) {
         this.removeElement(this.internalValue[this.internalValue.length - 1], false)
       }
+    },
+
+    removeAllElements (shouldClose = true) {
+        /* istanbul ignore else */
+        if (this.disabled) return
+        /* istanbul ignore else */
+        if (!this.allowEmpty && this.internalValue.length <= 1) {
+            this.deactivate()
+            return
+        }
+
+        for(let option of this.internalValue) {
+            this.$emit('remove', option, this.id);
+        }
+        if (this.multiple) {
+            this.$emit('input', [], this.id)
+        } else {
+            this.$emit('input', null, this.id)
+        }
+
+        if (this.closeOnSelect && shouldClose) this.deactivate()
     },
     /**
      * Opens the multiselect’s dropdown.

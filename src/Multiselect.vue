@@ -14,7 +14,9 @@
       <slot name="caret" :toggle="toggle">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
-      <slot name="clear" :search="search"></slot>
+      <slot name="clear" :search="search">
+          <div class="multiselect__clear" v-if="allowClear && internalValue.length" @mousedown.prevent.stop="removeAllElements" />
+      </slot>
       <div ref="tags" class="multiselect__tags">
         <slot
           name="selection"

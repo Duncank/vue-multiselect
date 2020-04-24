@@ -12,13 +12,8 @@ div
     label="name",
     track-by="name",
     :preselect-first="true"
+    :allow-clear="true"
   )
-    template(
-      slot="selection"
-      slot-scope="{ values, search, isOpen }"
-    )
-      span.multiselect__single(v-if="values.length && !isOpen")
-        | {{ values.length }} options selected
   pre.language-json
     code.
       {{ value  }}
