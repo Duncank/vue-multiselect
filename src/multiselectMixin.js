@@ -84,6 +84,8 @@ export default {
             isOpen: false,
             preferredOpenDirection: 'below',
             optimizedHeight: this.maxHeight,
+            remoteResults: [],
+            prefetched: false,
         };
     },
     props: {
@@ -209,7 +211,7 @@ export default {
          */
         placeholder: {
             type: String,
-            default: 'Select option',
+            default: '',
         },
         /**
          * Allow to remove all selected values
@@ -259,15 +261,6 @@ export default {
         taggable: {
             type: Boolean,
             default: false,
-        },
-        /**
-         * String to show when highlighting a potential tag
-         * @default 'Press enter to create a tag'
-         * @type {String}
-         */
-        tagPlaceholder: {
-            type: String,
-            default: 'Press enter to create a tag',
         },
         /**
          * By default new tags will appear above the search results.
@@ -371,6 +364,16 @@ export default {
          */
         remoteSearch: {
             type: Function,
+            default: undefined,
+        },
+
+        /**
+         * Execute remote search directly on opening
+         * @type {Function}
+         */
+        prefetch: {
+            type: Number,
+            default: 0,
         },
     },
     mounted() {
@@ -407,7 +410,9 @@ export default {
         },
 
         formatOutput() {
-            return this.outputFormat || this.formatInput;
+            if (this.outputFormat) { return this.outputFormat; }
+            if (typeof this.remoteSearch === 'function') { return 'object'; }
+            return this.formatInput;
         },
 
         internalValue() {
@@ -433,7 +438,7 @@ export default {
             const search = this.search || '';
             const normalizedSearch = search.toLowerCase().trim();
 
-            let options = this.options.concat();
+            let options = !this.remoteSearch ? this.options.concat() : this.options.concat(this.remoteResults);
 
             /* istanbul ignore else */
             if (this.internalSearch && !this.remoteSearch) {
@@ -471,7 +476,7 @@ export default {
         },
         valueKeys() {
             if (this.trackBy) {
-                return this.internalValue.map((element) => element[this.trackBy]);
+                return this.internalValue.map((element) => (element && element[this.trackBy] ? element[this.trackBy] : undefined));
             }
             return this.internalValue;
         },
@@ -493,12 +498,15 @@ export default {
             /* istanbul ignore else */
             if (this.resetAfter && this.internalValue.length) {
                 this.search = '';
-                this.emitInput(this.multiple ? [] : null);
+                this.emitInput(this.multiple ? [] : undefined);
             }
         },
         search(val) {
-            this.getRemoteValues(val);
+            this.searchRemoteValues(val);
             // this.$emit('search-change', this.search, this.id);
+        },
+        prefetch() {
+            this.prefetched = false;
         },
     },
     methods: {
@@ -510,27 +518,30 @@ export default {
             if (this.multiple) {
                 return this.internalValue;
             }
-            return this.internalValue.length === 0 ? null : this.internalValue[0];
+            return this.internalValue.length === 0 ? undefined : this.internalValue[0];
         },
 
-        getRemoteValues: debounce(function debounced(val) {
+        searchRemoteValues: debounce(function debounced(val) {
+            this.getRemoteValues(val);
+        }, 500),
+
+        getRemoteValues(val) {
             if (typeof this.remoteSearch === 'function') {
-                if (val) {
-                    console.log('get remote values', val);
+                if (val || (this.prefetch && !this.prefetched)) {
                     this.loading = true;
                     this.remoteSearch(val)
                         .then((r) => {
-                            console.log('results', r);
-                        }).catch((err) => {
-                            console.log('error', err);
+                            this.remoteResults = r;
+                        }).catch(() => {
+                            this.remoteResults = [];
                         }).finally(() => {
                             this.loading = false;
                         });
                 } else {
-                    console.log('clear remote values');
+                    this.remoteResults = [];
                 }
             }
-        }, 500),
+        },
         /**
          * Filters and then flattens the options list
          * @param  {Array}
@@ -563,7 +574,6 @@ export default {
          * @param  {Number||String||Object||Array}
          */
         emitInput(val) {
-            console.log(val, this.formatOutput);
             if (val && this.formatOutput === 'id') {
                 const ids = Array.isArray(val)
                     ? val.map((it) => it[this.trackBy])
@@ -649,7 +659,7 @@ export default {
             /* istanbul ignore else */
             if (key === 'Tab' && !this.pointerDirty) return;
             if (option.isTag) {
-                this.$emit('tag', option.label, this.id);
+                this.emitInput({ [this.trackBy]: option.label, [this.label]: option.label });
                 this.search = '';
                 if (this.closeOnSelect && !this.multiple) this.deactivate();
             } else {
@@ -754,7 +764,7 @@ export default {
                     .concat(this.internalValue.slice(index + 1));
                 this.emitInput(newValue);
             } else {
-                this.emitInput(null);
+                this.emitInput(undefined);
             }
 
             /* istanbul ignore else */
@@ -793,7 +803,7 @@ export default {
             if (this.multiple) {
                 this.emitInput([]);
             } else {
-                this.emitInput(null);
+                this.emitInput(undefined);
             }
 
             if (this.closeOnSelect && shouldClose) this.deactivate();
@@ -810,6 +820,11 @@ export default {
             /* istanbul ignore else  */
             if (this.groupValues && this.pointer === 0 && this.filteredOptions.length) {
                 this.pointer = 1;
+            }
+
+            if (this.prefetch && !this.prefetched) {
+                this.getRemoteValues();
+                this.prefetched = true;
             }
 
             this.isOpen = true;
