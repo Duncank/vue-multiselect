@@ -832,7 +832,7 @@ fieldset[disabled] .multiselect {
 }
 .multiselect__option_sublabel {
     font-size: var(--multiselect-tag-fontsize, var(--default-multiselect-tag-fontsize));
-    opacity: var(--multiselect-color-secondary, var(--default-multiselect-color-secondary));
+    color: var(--multiselect-color-secondary, var(--default-multiselect-color-secondary));
     padding-left: var(--multiselect-level-indent, var(--default-multiselect-level-indent));
 }
 .multiselect--level-1 {
