@@ -145,6 +145,14 @@ export default {
             type: String,
         },
         /**
+             * Whether input-emit should contains ids or objects
+             * @default 'autodetected'
+             * @type {String}
+             */
+            inputFormat: {
+                type: String,
+            },
+        /**
          * Whether input-emit should contains ids or objects
          * @default 'same as inputformat'
          * @type {String}
@@ -389,6 +397,7 @@ export default {
     },
     computed: {
         formatInput() {
+            if (this.inputFormat) { return this.inputFormat; }
             if (this.value || this.value === 0) {
                 if (Array.isArray(this.value) && this.value.length) {
                     if (typeof this.value[0] === 'string') {
@@ -659,7 +668,16 @@ export default {
             /* istanbul ignore else */
             if (key === 'Tab' && !this.pointerDirty) return;
             if (option.isTag) {
-                this.emitInput({ [this.trackBy]: option.label, [this.label]: option.label });
+                if (this.inputFormat === 'string') {
+                    option = option.label;
+                } else {
+                    option = { [this.trackBy]: option.label, [this.label]: option.label };
+                }
+                if (this.multiple) {
+                    this.emitInput(this.internalValue.concat([option]));
+                } else {
+                    this.emitInput(option);
+                }
                 this.search = '';
                 if (this.closeOnSelect && !this.multiple) this.deactivate();
             } else {
