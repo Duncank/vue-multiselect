@@ -21,6 +21,7 @@ div
     :max-height="600",
     :show-no-results="false",
     :hide-selected="true",
+    :remote-search="getRemoteItems"
     @search-change="asyncFind"
   )
     template(slot="tag", slot-scope="{ option, remove }")
@@ -67,6 +68,12 @@ export default {
     },
     clearAll () {
       this.selectedCountries = []
+    },
+    getRemoteItems (query) {
+      console.log(query)
+      return new Promise((resolve) => {
+        resolve([{ id: 1, name: 'Duncan' }, { id: 2, name: 'Tim' }])
+      })
     }
   }
 }

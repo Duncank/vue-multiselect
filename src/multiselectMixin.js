@@ -546,7 +546,7 @@ export default {
                         }).finally(() => {
                             this.loading = false;
                         });
-                } else {
+                } else if (!this.remoteResults.length) {
                     this.remoteResults = [];
                 }
             }
