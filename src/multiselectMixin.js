@@ -668,7 +668,7 @@ export default {
             /* istanbul ignore else */
             if (key === 'Tab' && !this.pointerDirty) return;
             if (option.isTag) {
-                if (this.inputFormat === 'string') {
+                if (this.outputFormat === 'string') {
                     option = option.label;
                 } else {
                     option = { [this.trackBy]: option.label, [this.label]: option.label };
