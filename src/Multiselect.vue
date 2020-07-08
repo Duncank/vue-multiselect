@@ -611,6 +611,7 @@ fieldset[disabled] .multiselect {
     background: var(--multiselect-input-bg, var(--default-multiselect-input-bg));
     font-size: var(--multiselect-input-fontsize, var(--default-multiselect-input-fontsize));
 }
+    .multiselect__clear + .multiselect__tags { padding-right: 42px; }
 .multiselect__tags-wrap {
     margin-left: calc(-1 * var(--multiselect-input-leftpadding, var(--default-multiselect-input-leftpadding)));
     padding: 0 0 4px calc(0.5 * var(--multiselect-input-leftpadding, var(--default-multiselect-input-leftpadding)));
