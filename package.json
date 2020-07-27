@@ -1,6 +1,6 @@
 {
   "name": "p5-multiselect",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "private": false,
   "types": "index.d.ts",
   "scripts": {
