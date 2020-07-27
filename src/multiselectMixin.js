@@ -848,8 +848,10 @@ export default {
             this.isOpen = true;
             /* istanbul ignore else  */
             if (this.searchable) {
-                if (!this.preserveSearch) this.search = '';
-                this.$nextTick(() => this.$refs.search && this.$refs.search.focus());
+                if (!this.preserveSearch) {
+                    if (!this.multiple && this.currentOptionLabel) { this.search = this.currentOptionLabel; } else { this.search = ''; }
+                }
+                this.$nextTick(() => this.$refs.search && this.$refs.search.select());
             } else {
                 this.$el.focus();
             }
