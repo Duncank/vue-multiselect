@@ -400,7 +400,7 @@ export default {
                 en: {
                     noResults: 'No results',
                     noOptions: 'No options available',
-                    selectLabel: '',
+                    selectLabel: 'Select',
                     selectGroupLabel: 'Press enter to select group',
                     selectedLabel: 'Selected',
                     deselectLabel: 'Add',
@@ -412,7 +412,7 @@ export default {
                 nl: {
                     noResults: 'Geen resultaten',
                     noOptions: 'Geen opties beschikbaar',
-                    selectLabel: '',
+                    selectLabel: 'Selecteer',
                     selectGroupLabel: 'Selecteer met enter',
                     selectedLabel: 'Geselecteerd',
                     deselectLabel: 'Toevoegen',

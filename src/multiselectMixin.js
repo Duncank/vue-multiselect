@@ -630,9 +630,9 @@ export default {
          * @returns {Object||String}
          */
         getOptionLabel(option, key) {
-            if (isEmpty(option) || (key && (option.isTag || option.$isLabel))) return '';
-            /* istanbul ignore else */
             if (option.isTag) return option.label;
+            /* istanbul ignore else */
+            if (isEmpty(option) || (key && (option.isTag || option.$isLabel))) return '';
             /* istanbul ignore else */
             if (option.$isLabel) return option.$groupLabel;
             if (!key && typeof option === 'string') {
