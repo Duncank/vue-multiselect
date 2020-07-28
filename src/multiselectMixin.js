@@ -444,7 +444,7 @@ export default {
             return [];
         },
         filteredOptions() {
-            const search = this.search || '';
+            const search = (this.search || '').toString();
             const normalizedSearch = search.toLowerCase().trim();
 
             let options = !this.remoteSearch ? this.options.concat() : this.options.concat(this.remoteResults);
@@ -849,7 +849,7 @@ export default {
             /* istanbul ignore else  */
             if (this.searchable) {
                 if (!this.preserveSearch) {
-                    if (!this.multiple && this.currentOptionLabel) { this.search = this.currentOptionLabel; } else { this.search = ''; }
+                    if (!this.multiple && this.currentOptionLabel && typeof this.remoteSearch === 'function') { this.search = this.currentOptionLabel; } else { this.search = ''; }
                 }
                 this.$nextTick(() => this.$refs.search && this.$refs.search.select());
             } else {
