@@ -72,7 +72,7 @@
                 :name="name"
                 :id="id"
                 type="text"
-                autocomplete="off"
+                autocomplete="new-password"
                 spellcheck="false"
                 :placeholder="placeholder"
                 :style="inputStyle"
