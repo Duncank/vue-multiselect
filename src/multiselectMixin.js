@@ -425,11 +425,14 @@ export default {
         },
 
         internalValue() {
-            if (this.value || this.value === 0) {
+            const val = this.value;
+            if (val || val  === 0) {
                 if (this.formatInput === 'id') {
-                    const findValueInOptions = (val) => this.options.find((it) => it[this.trackBy] === val);
-                    if (Array.isArray(this.value)) {
-                        return this.value.reduce((acc, cur) => {
+                    const trackBy = this.trackBy;
+                    const options = this.options;
+                    const findValueInOptions = (val) => options.find((it) => it[trackBy] === val);
+                    if (Array.isArray(val)) {
+                        return val.reduce((acc, cur) => {
                             const opt = findValueInOptions(cur);
                             if (opt) {
                                 acc.push(opt);
@@ -437,9 +440,9 @@ export default {
                             return acc;
                         }, []);
                     }
-                    return [findValueInOptions(this.value)] || [];
+                    return [findValueInOptions(val)] || [];
                 }
-                return Array.isArray(this.value) ? this.value : [this.value];
+                return Array.isArray(val) ? val : [val];
             }
             return [];
         },
@@ -532,7 +535,7 @@ export default {
 
         searchRemoteValues: debounce(function debounced(val) {
             this.getRemoteValues(val);
-        }, 500),
+        }, window.innerWidth < 900 ? 500 : 225),
 
         getRemoteValues(val) {
             if (typeof this.remoteSearch === 'function') {
