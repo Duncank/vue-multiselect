@@ -775,12 +775,8 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option:after {
-    top: 0;
-    right: 0;
-    position: absolute;
-    line-height: 40px;
-    padding-right: 12px;
-    padding-left: 20px;
+    position: relative;
+    line-height: inherit;
     font-size: 13px;
 }
 
@@ -792,7 +788,7 @@ fieldset[disabled] .multiselect {
 
 .multiselect__option--highlight:after {
     content: attr(data-select);
-    background: var(--multiselect-highlight-bg, var(--default-multiselect-highlight-bg));
+    background: transparent;
     color: var(--multiselect-highlight-color, var(--default-multiselect-highlight-color));
 }
 
@@ -835,6 +831,11 @@ fieldset[disabled] .multiselect {
     font-size: var(--multiselect-tag-fontsize, var(--default-multiselect-tag-fontsize));
     color: var(--multiselect-color-secondary, var(--default-multiselect-color-secondary));
     padding-left: var(--multiselect-level-indent, var(--default-multiselect-level-indent));
+    padding-right: var(--multiselect-level-indent, var(--default-multiselect-level-indent));
+    flex-grow: 1;
+}
+.multiselect__option--highlight .multiselect__option_sublabel {
+    color: var(--multiselect-highlight-color, var(--default-multiselect-highlight-color));
 }
 .multiselect--level-1 {
     padding-left: var(--multiselect-level-indent, var(--default-multiselect-level-indent));
