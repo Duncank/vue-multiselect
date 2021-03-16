@@ -833,6 +833,7 @@ fieldset[disabled] .multiselect {
     padding-left: var(--multiselect-level-indent, var(--default-multiselect-level-indent));
     padding-right: var(--multiselect-level-indent, var(--default-multiselect-level-indent));
     flex-grow: 1;
+    text-align: right;
 }
 .multiselect__option--highlight .multiselect__option_sublabel {
     color: var(--multiselect-highlight-color, var(--default-multiselect-highlight-color));
